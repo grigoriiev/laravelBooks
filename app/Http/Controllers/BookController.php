@@ -29,23 +29,23 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request): JsonResponse
     {
-        $book = Book::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => (float)$request->input('price'),
-            'currencyCode' => $request->input('currencyCode'),
-            'discount' => (float)$request->input('discount'),
-            'series' => $request->input('series'),
-            'chapter' => $request->input('chapter'),
-            'publishingHouse' => $request->input('publishingHouse'),
-            'language' => $request->input('language'),
-            'ISBN' => $request->input('ISBN')
-        ]);
-        if ($request->input('authors.*')) {
-            $author = Author::find($request->input('authors.*'));
-            $book->authors()->attach($author);
-        }
         try {
+            $book = Book::create([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'price' => (float)$request->input('price'),
+                'currencyCode' => $request->input('currencyCode'),
+                'discount' => (float)$request->input('discount'),
+                'series' => $request->input('series'),
+                'chapter' => $request->input('chapter'),
+                'publishingHouse' => $request->input('publishingHouse'),
+                'language' => $request->input('language'),
+                'ISBN' => $request->input('ISBN')
+            ]);
+            if ($request->input('authors.*')) {
+                $author = Author::find($request->input('authors.*'));
+                $book->authors()->attach($author);
+            }
             return response()->json([
                 "success" => true,
                 "message" => "Book has been store successfully id " . $book->id . "."
